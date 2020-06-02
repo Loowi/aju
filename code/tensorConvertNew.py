@@ -1,6 +1,4 @@
 import numpy as np
-import pickle
-from tqdm import tqdm
 
 
 def fenToTensor(input):
@@ -35,7 +33,8 @@ def fenToTensor(input):
             raise ValueError("invalid fen string")
 
     # Pack into bits to save memory
-    bitTensor = np.packbits(tensor, axis=-1)
+    bitTensor = tensor
+    # bitTensor = np.packbits(tensor, axis=-1)
 
     return bitTensor
 
@@ -55,28 +54,22 @@ def fenToTensor(input):
 
 
 # Test
-fen = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1' fdasfsdfdsafdasf
-a = fenToTensor(fen)
+# fen = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1'
+# a = fenToTensor(fen)
+
+# b1 = np.unpackbits(a, axis=-1)
 
 
+# print(a.nbytes)
+
+# kala = np.reshape(a, 768)
+# print(kala.nbytes)
 
 
+# b1 = np.packbits(a, axis=-1)
+# print(b1.nbytes)
 
+# b2 = np.packbits(kala, axis=0)
+# print(b2.nbytes)
 
-
-b1 = np.unpackbits(a, axis=-1)
-
-
-print(a.nbytes)
-
-kala = np.reshape(a, 768)
-print(kala.nbytes)
-
-
-b1 = np.packbits(a, axis=-1)
-print(b1.nbytes)
-
-b2 = np.packbits(kala, axis=0)
-print(b2.nbytes)
-
-qw = np.reshape(kala, [12, 8, 8])
+# qw = np.reshape(kala, [12, 8, 8])

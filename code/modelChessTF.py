@@ -89,10 +89,27 @@ class ChessModel:
         x = Activation("relu", name=res_name+"_relu2")(x)
         return x
 
+    def compile(self, optimizer, loss, metrics):
+        self.model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
+        return self.model
 
-Config = ModelConfig()
-a = ChessModel(Config)
-a.build()
-a.model.summary()
-keras.utils.plot_model(
-    a.model, "my_first_model_with_shape_info.png", show_shapes=True)
+    def fit(self, dataset, batch_size, epochs, shuffle, validation_split, validation_data, callbacks):
+        self.model.fit(x=dataset, batch_size=batch_size, epochs=epochs,
+                       shuffle=True, validation_split=validation_split,
+                       validation_data=validation_data,
+                       callbacks=callbacks)
+        return self.model
+
+    def predict(self, x, batch_size=None, steps=None, callbacks=None, max_queue_size=10,
+                workers=1, use_multiprocessing=False):
+        value = self.model.predict(x=x, batch_size=batch_size, steps=steps,
+                                   callbacks=callbacks, max_queue_size=max_queue_size, workers=workers,
+                                   use_multiprocessing=use_multiprocessing)
+        return value
+
+# Config = ModelConfig()
+# a = ChessModel(Config)
+# a.build()
+# a.model.summary()
+# keras.utils.plot_model(
+#     a.model, "my_first_model_with_shape_info.png", show_shapes=True)
