@@ -3,6 +3,7 @@ import tensorflow as tf
 import pandas as pd
 from tensorflow.keras.utils import Sequence
 import math
+import random
 
 # https: // sknadig.me/TensorFlow2.0-dataset/
 # https://www.tensorflow.org/api_docs/python/tf/keras/utils/Sequence
@@ -20,9 +21,6 @@ df4 = pd.DataFrame(data4, columns=['Name', 'Age'])
 files = [df1, df2, df3, df4]
 
 
-# Here, `x_set` is list of path to the images
-# and `y_set` are the associated classes.
-
 class testgen(Sequence):
 
     def __init__(self, files, num_files, batch_size):
@@ -31,6 +29,7 @@ class testgen(Sequence):
         self.batch_size = batch_size
 
     def __len__(self):
+        # Required to start a new epoch
         return math.ceil(len(self.x) / self.batch_size)
 
     def __getitem__(self, idx):
@@ -40,9 +39,12 @@ class testgen(Sequence):
         print("Empty line")
         return df_new
 
+    def on_epoch_end(self):
+        'Updates indexes after each epoch'
+        self.files = self.random.shuffle(files)
 
-    
 
+random.shuffle(files)
 ab = testgen(files, 2, 3)
 t1 = ab.__getitem__(1)
 t2 = ab.__getitem__(1)
