@@ -4,7 +4,7 @@ from skimage.io import imread
 import numpy as np
 import tensorflow as tf
 import pandas as pd
-from tf.keras.utils import Sequence
+from tensorflow.keras.utils import Sequence
 
 # https: // sknadig.me/TensorFlow2.0-dataset/
 # https://www.tensorflow.org/api_docs/python/tf/keras/utils/Sequence
@@ -12,8 +12,10 @@ from tf.keras.utils import Sequence
 # Create two datasets
 data1 = [['tom', 10], ['nick', 15], ['juli', 14]]
 data2 = [['tom2', 102], ['nick2', 152], ['juli2', 142]]
+data3 = [['tom3', 1023], ['nick3', 1523], ['juli3', 1423]]
 df = pd.DataFrame(data1, columns=['Name', 'Age'])
 df2 = pd.DataFrame(data2, columns=['Name', 'Age'])
+df3 = pd.DataFrame(data3, columns=['Name', 'Age'])
 
 
 # Here, `x_set` is list of path to the images
