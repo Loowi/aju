@@ -65,3 +65,27 @@ print("Data shape: ", x.shape, y.shape)
 
 # Success criteria: all data is consumed on every epoch, batch size is correct
 pass
+
+
+def data_generator(file_list, batch_size = 20):
+    i = 0
+    while True:
+        if i*batch_size >= len(file_list):  # This loop is used to run the generator indefinitely.
+            i = 0
+            np.random.shuffle(file_list)
+        else:
+            file_chunk = file_list[i*batch_size:(i+1)*batch_size] 
+            data = []
+            labels = []
+            label_classes = ["Fault_1", "Fault_2", "Fault_3", "Fault_4", "Fault_5"]
+            for file in file_chunk:
+                temp = pd.read_csv(open(file,'r')) # Change this line to read any other type of file
+                data.append(temp.values.reshape(32,32,1)) # Convert column data to matrix like data with one channel
+                pattern = "^" + eval("file[14:21]")      # Pattern extracted from file_name
+                for j in range(len(label_classes)):
+                    if re.match(pattern, label_classes[j]): # Pattern is matched against different label_classes
+                        labels.append(j)  
+            data = np.asarray(data).reshape(-1,32,32,1)
+            labels = np.asarray(labels)
+            yield data, labels
+            i = i + 1

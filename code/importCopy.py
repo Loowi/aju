@@ -25,45 +25,28 @@ files = [df1, df2, df3, df4]
 class testgen(Sequence):
 
     def __init__(self, files, num_files, batch_size):
-        self.files = files
+        self.files = copy.deepcopy(files)
         self.num_files = num_files
         self.batch_size = batch_size
-        self.files_enum = list(range(len(self.files)))
 
     def __len__(self):
         # Required to start a new epoch
-        return -1
+        return 0
 
     def __getitem__(self, idx):
-        if not self.files_enum:
-            self.files_enum = list(range(len(self.files)))
-            random.shuffle(self.files)
-
-        filesNum = [self.files_enum.pop(0) for i in range(self.num_files)]
-        print(filesNum)
-
-        listPandaFiles = [self.files[i] for i in filesNum]
+        listPandaFiles = [self.files.pop(0) for i in range(self.num_files)]
         df_new = pd.concat(listPandaFiles)
         print(df_new)
-        print("\n")
+        print("Empty line")
         return df_new
 
     def on_epoch_end(self):
         'Updates indexes after each epoch'
-        self.files = random.shuffle(self.files)
-        # self.files_enum = list(range(len(self.files)))
+        self.files = self.random.shuffle(self.files)
 
 
 random.shuffle(files)
 ab = testgen(files, 2, 3)
-ab[1]
-ab[1]
-ab[1]
-ab[1]
-ab[1]
-ab[1]
-ab[1]
-ab[1]
 # t1 = ab.__getitem__(0)
 # t2 = ab.__getitem__(1)
 # t3 = ab.__getitem__(0)
