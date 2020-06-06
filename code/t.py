@@ -21,6 +21,7 @@ df4 = pd.DataFrame(data4, columns=['Name', 'Age'])
 
 files = [df1, df2, df3, df4]
 
+sasas
 
 class testgen(Sequence):
 
@@ -31,8 +32,8 @@ class testgen(Sequence):
         self.files_enum = list(range(len(self.files)))
 
     def __len__(self):
-        # Required to start a new epoch
-        return -1
+        # Required to start a new epoch, not working now
+        return 2
 
     def __getitem__(self, idx):
         if not self.files_enum:
@@ -40,18 +41,15 @@ class testgen(Sequence):
             random.shuffle(self.files)
 
         filesNum = [self.files_enum.pop(0) for i in range(self.num_files)]
-        print(filesNum)
-
         listPandaFiles = [self.files[i] for i in filesNum]
         df_new = pd.concat(listPandaFiles)
-        print(df_new)
-        print("\n")
+
         return df_new
 
     def on_epoch_end(self):
-        'Updates indexes after each epoch'
+        # Updates indexes after each epoch, not working now
         self.files = random.shuffle(self.files)
-        # self.files_enum = list(range(len(self.files)))
+        list(range(len(self.files)))
 
 
 random.shuffle(files)
@@ -67,5 +65,4 @@ ab[1]
 # t1 = ab.__getitem__(0)
 # t2 = ab.__getitem__(1)
 # t3 = ab.__getitem__(0)
-
 
