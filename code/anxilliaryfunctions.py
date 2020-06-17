@@ -1,6 +1,7 @@
 import chessModel
 from collections import OrderedDict
 import numpy as np
+from collections import defaultdict
 
 
 def convertMoves(moves):
@@ -10,7 +11,7 @@ def convertMoves(moves):
     # Create function to convert one value
     def convert(move, labelDict):
         labels = labelDict.copy()
-        labelDict[move] = 1
+        labels[move] = 1
         d = np.array(list(labels.values())).astype(np.float16)
         return d
 
@@ -56,3 +57,20 @@ def fenToTensor(input):
             raise ValueError("invalid fen string")
 
     return tensor
+
+
+def createMoveDict():
+    # Create dictionary, label as a key, numpy array as a value
+    moveLabels = chessModel.create_uci_labels()
+    labelDict = OrderedDict([(i, np.float16(0.0)) for i in moveLabels])
+
+    def convertMoves(move, labels):
+        labels[move] = np.float16(1.0)
+        moveTensor = np.array(list(labels.values()))
+        labels[move] = np.float16(0.0)
+        return moveTensor
+
+    moveDict = {i: convertMoves(i, labelDict) for i in moveLabels}
+    finalDict = defaultdict(lambda: list(labelDict.values()), moveDict)
+
+    return finalDict
