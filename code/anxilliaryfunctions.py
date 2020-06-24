@@ -2,6 +2,7 @@ import chessModel
 from collections import OrderedDict
 import numpy as np
 from collections import defaultdict
+from enum import Enum
 
 
 def convertMoves(moves):
@@ -73,4 +74,6 @@ def createMoveDict():
     moveDict = {i: convertMoves(i, labelDict) for i in moveLabels}
     finalDict = defaultdict(lambda: list(labelDict.values()), moveDict)
 
-    return finalDict
+    enumDict = Enum('Move', moveLabels, start=0)
+
+    return finalDict, enumDict
